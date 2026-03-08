@@ -18,7 +18,7 @@ export default function Navbar() {
     <header className="border-b border-neutral-800 bg-black backdrop-blur">
       <div className="mx-auto flex h-18 max-w-5xl items-center justify-between px-6 text-lg">
         <Link href="/" className="text-lg font-semibold tracking-tight">
-          Ruichouwu's Blog
+          Ruichouw's Blog
         </Link>
 
         <nav className="flex items-center gap-6 text-sm">
@@ -31,8 +31,8 @@ export default function Navbar() {
                 href={item.href}
                 className={`transition-colors ${
                   isActive
-                    ? "font-medium text-green-500"
-                    : " hover:text-green-600 transition-colors"
+                    ? "font-medium text-[#5EEAD4]"
+                    : " hover:text-emerald-200 transition-colors"
                 }`}
               >
                 {item.label}
