@@ -4,6 +4,7 @@ export type Post = {
   date: string;
   summary: string;
   tags: string[];
+  content: string;
 };
 
 export const posts: Post[] = [
@@ -12,8 +13,15 @@ export const posts: Post[] = [
     slug: "build-blog-with-nextjs",
     date: "2026-03-09",
     summary:
-      "从项目初始化、路由设计到文章系统搭建，梳理一个适合个人开发者的纯前端博客方案。从项目初始化、路由设计到文章系统搭建，梳理一个适合个人开发者的纯前端博客方案。从项目初始化、路由设计到文章系统搭建，梳理一个适合个人开发者的纯前端博客方案。",
+      "从项目初始化、路由设计到文章系统搭建，梳理一个适合个人开发者的纯前端博客方案。",
     tags: ["Next.js", "博客", "前端"],
+    content: `
+这是第一篇文章的正文内容。
+
+这里可以先用普通字符串模拟正文。
+
+后续接入 MDX 后，这部分会替换成真正的文章内容源。
+    `,
   },
   {
     title: "为什么我选择 MDX 作为博客内容方案",
@@ -22,6 +30,11 @@ export const posts: Post[] = [
     summary:
       "相比传统 Markdown，MDX 在组件复用、代码示例展示和内容扩展上更适合技术博客。",
     tags: ["MDX", "内容系统"],
+    content: `
+MDX 的优势在于，它不仅能写 Markdown，还能在内容中嵌入组件。
+
+这对技术博客非常有帮助。
+    `,
   },
   {
     title: "如何设计一个简洁但好用的文章卡片",
@@ -30,6 +43,11 @@ export const posts: Post[] = [
     summary:
       "文章卡片不需要复杂封面，保留标题、摘要和时间，反而更适合强调内容本身。",
     tags: ["UI", "设计"],
+    content: `
+文章卡片的核心任务不是展示花哨设计，而是帮助用户快速判断是否要点进去阅读。
+
+所以内容优先非常重要。
+    `,
   },
   {
     title: "静态博客中的搜索功能应该怎么做",
@@ -38,5 +56,18 @@ export const posts: Post[] = [
     summary:
       "对个人博客来说，本地索引加前端模糊搜索通常已经足够，不必一开始就引入后端服务。",
     tags: ["搜索", "Fuse.js"],
+    content: `
+如果文章数量不大，本地搜索通常已经足够。
+
+后面可以再考虑 Fuse.js 来做模糊匹配。
+    `,
   },
 ];
+
+export function getAllPosts() {
+  return posts;
+}
+
+export function getPostBySlug(slug: string) {
+  return posts.find((post) => post.slug === slug);
+}
