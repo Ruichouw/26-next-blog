@@ -32,7 +32,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
     <main className="mx-auto max-w-7xl px-6 py-10">
       <div className="flex gap-5 w-full">
         <div className="w-64"></div>
-        <div className="max-w-3xl self-center">
+        <div className="max-w-3xl w-full self-center">
           <header className="border-b border-black/10 pb-8">
             <h1 className="text-4xl font-bold tracking-tight">{post.title}</h1>
             <div className="flex gap-4 items-center">
