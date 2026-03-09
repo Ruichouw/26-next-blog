@@ -1,73 +1,75 @@
-export type Post = {
+import fs from "node:fs";
+import path from "node:path";
+import matter from "gray-matter";
+
+// 获取content / posts目录的绝对路径，path.join是字符串拼接，process.cwd()是当前工作目录的绝对路径
+const postsDirectory = path.join(process.cwd(), "content/posts");
+
+export type PostMeta = {
   title: string;
-  slug: string;
   date: string;
   summary: string;
   tags: string[];
+  slug: string;
+};
+
+export type Post = PostMeta & {
   content: string;
 };
 
-export const posts: Post[] = [
-  {
-    title: "使用 Next.js 构建个人技术博客",
-    slug: "build-blog-with-nextjs",
-    date: "2026-03-09",
-    summary:
-      "从项目初始化、路由设计到文章系统搭建，梳理一个适合个人开发者的纯前端博客方案。",
-    tags: ["Next.js", "博客", "前端"],
-    content: `
-这是第一篇文章的正文内容。
-
-这里可以先用普通字符串模拟正文。
-
-后续接入 MDX 后，这部分会替换成真正的文章内容源。
-    `,
-  },
-  {
-    title: "为什么我选择 MDX 作为博客内容方案",
-    slug: "why-i-choose-mdx",
-    date: "2026-03-06",
-    summary:
-      "相比传统 Markdown，MDX 在组件复用、代码示例展示和内容扩展上更适合技术博客。",
-    tags: ["MDX", "内容系统"],
-    content: `
-MDX 的优势在于，它不仅能写 Markdown，还能在内容中嵌入组件。
-
-这对技术博客非常有帮助。
-    `,
-  },
-  {
-    title: "如何设计一个简洁但好用的文章卡片",
-    slug: "design-clean-article-card",
-    date: "2026-03-03",
-    summary:
-      "文章卡片不需要复杂封面，保留标题、摘要和时间，反而更适合强调内容本身。",
-    tags: ["UI", "设计"],
-    content: `
-文章卡片的核心任务不是展示花哨设计，而是帮助用户快速判断是否要点进去阅读。
-
-所以内容优先非常重要。
-    `,
-  },
-  {
-    title: "静态博客中的搜索功能应该怎么做",
-    slug: "search-in-static-blog",
-    date: "2026-02-28",
-    summary:
-      "对个人博客来说，本地索引加前端模糊搜索通常已经足够，不必一开始就引入后端服务。",
-    tags: ["搜索", "Fuse.js"],
-    content: `
-如果文章数量不大，本地搜索通常已经足够。
-
-后面可以再考虑 Fuse.js 来做模糊匹配。
-    `,
-  },
-];
-
-export function getAllPosts() {
-  return posts;
+// 获取content / posts目录下所有的mdx文件数组
+function getPostFileNames() {
+  return fs.readdirSync(postsDirectory).filter((fileName) => {
+    return fileName.endsWith(".mdx");
+  });
 }
 
-export function getPostBySlug(slug: string) {
-  return posts.find((post) => post.slug === slug);
+// 返回处理好的文章元数据
+export function getAllPostsMeta(): PostMeta[] {
+  const fileNames = getPostFileNames();
+
+  // 返回文章中的元数据
+  const posts = fileNames.map((fileName) => {
+    // 按文件名生成slug，去掉.md后缀
+    const slug = fileName.replace(/\.mdx$/, "");
+    // 获取每一篇文章的完整路径
+    const fullPath = path.join(postsDirectory, fileName);
+    // 读取文章内容返回字符串
+    const fileContents = fs.readFileSync(fullPath, "utf8");
+    // 利用gray-matter解析字符串，提取出front matter中的数据和内容，返回一个对象，data是front matter中的数据，content是文章内容
+    const { data } = matter(fileContents);
+    // 返回统一结构，而不是直接返回data，因为我们需要slug字段，而slug是从文件名生成的，不在front matter中，所以我们需要手动添加slug字段
+    return {
+      title: data.title,
+      date: data.date,
+      summary: data.summary,
+      tags: data.tags ?? [],
+      slug,
+    } as PostMeta;
+  });
+  // 对post按日期排序，最新的在前面
+  return posts.sort((a, b) => {
+    return new Date(b.date).getTime() - new Date(a.date).getTime();
+  });
+}
+// 根据 slug 获取一篇文章
+export function getPostBySlug(slug: string): Post | null {
+  const fullPath = path.join(postsDirectory, `${slug}.mdx`);
+
+  // 判断文章是否存在
+  if (!fs.existsSync(fullPath)) {
+    return null;
+  }
+
+  const fileContents = fs.readFileSync(fullPath, "utf8");
+  const { data, content } = matter(fileContents);
+
+  return {
+    title: data.title,
+    date: data.date,
+    summary: data.summary,
+    tags: data.tags ?? [],
+    slug,
+    content,
+  };
 }

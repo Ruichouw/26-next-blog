@@ -1,0 +1,108 @@
+---
+title: "测试正文中的图片和代码块功能"
+date: "2026-03-10"
+summary: "用于测试 MDX 正文中的图片、代码块、列表、引用和段落排版效果。"
+tags: ["测试", "MDX", "代码块", "图片"]
+---
+
+# 测试正文中的图片和代码块功能
+
+这是一篇专门用于测试博客正文渲染效果的文章。
+
+正文里应该能正常展示普通段落、图片、行内代码，比如 `const blog = "next-blog"`，以及多种代码块样式。
+
+## 1. 普通段落测试
+
+如果排版正常，你应该能明显看出段与段之间有合适的留白，而不是全部挤在一起。
+
+这段文字主要用来观察中文正文的阅读体验，包括行高、段间距、容器宽度是否合适。
+
+## 2. 列表测试
+
+下面是一个无序列表：
+
+- Next.js
+- TypeScript
+- Tailwind CSS
+- MDX
+
+下面是一个有序列表：
+
+1. 初始化项目
+2. 搭建首页
+3. 接入文章系统
+4. 优化正文体验
+
+## 3. 图片测试
+
+下面这张图片来自 `public/images/test-cover.jpg`：
+
+![测试图片](/images/test.jpg)
+
+如果图片显示正常，说明你的 MDX 正文已经支持基础图片渲染。
+
+## 4. 引用测试
+
+> 这是一段引用内容，用来测试 blockquote 的样式是否正常。
+
+## 5. JavaScript 代码块测试
+
+```js
+function greet(name) {
+  return `Hello, ${name}`;
+}
+
+console.log(greet("Next.js Blog"));
+```
+
+## 6. TypeScript 代码块测试
+
+```ts
+type Post = {
+  title: string;
+  slug: string;
+  date: string;
+  summary: string;
+  tags: string[];
+};
+
+const post: Post = {
+  title: "测试正文中的图片和代码块功能",
+  slug: "test-media-and-code",
+  date: "2026-03-10",
+  summary: "测试文章",
+  tags: ["测试", "MDX"],
+};
+
+console.log(post);
+```
+
+## 7. Bash 代码块测试
+
+```bash
+pnpm add gray-matter next-mdx-remote remark-gfm
+pnpm dev
+```
+
+## 8. 超长代码行测试
+
+下面这段主要用来测试代码块是否会横向滚动，而不是把正文撑爆：
+
+```ts
+const veryLongText = "this-is-a-very-long-code-line-used-to-test-horizontal-overflow-in-code-block-rendering-and-it-should-scroll-instead-of-breaking-the-layout";
+```
+
+## 9. 行内代码测试
+
+这里再测试一次行内代码：`getPostBySlug(slug)`、`generateStaticParams()`、`MDXRemote`。
+
+## 10. 总结
+
+如果这篇文章显示正常，说明你的博客正文已经具备了比较完整的基础展示能力：
+AI 时代下程序员的职责可能会发生翻天覆地的变化，编码能力可能不再那么重要了，因为这部分 AI 做的可以比人类还好；但是设计能力，逻辑思维，因果律推导的思考能力则显得更加可贵。因为 AI 无法去真正的做到思考和创造一个东西出来，他只是不断地通过概率预测，去生成下一个可能出现的 token，并让这一串连续的 token 看起来像是创造了一个东西，又或者是像是解释了你的困惑，但是否真的具备逻辑性就不得而知了。
+
+- 支持图片
+- 支持代码块
+- 支持列表
+- 支持引用
+- 支持普通段落
