@@ -15,7 +15,7 @@ export default function TagPostList({ posts }: TagPostListProps) {
             href={`/posts/${post.slug}`}
             className="group grid grid-cols-[1fr_auto] items-center gap-6 px-4 py-4 transition-colors duration-200 hover:bg-white/[0.02]"
           >
-            <h2 className="text-base text-[#d6d6d6]  underline-offset-4 group-hover:text-[#5EEAD4]">
+            <h2 className="text-base text-[#d6d6d6]  underline-offset-4 group-hover:text-[#5EEAD4] hover:underline">
               {post.title}
             </h2>
 

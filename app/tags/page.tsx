@@ -6,7 +6,7 @@ export default function TagsPage() {
   const totalCount = getAllTagsTotalCount();
 
   return (
-    <main className="mx-auto max-w-4xl px-6 py-10">
+    <main className="mx-auto max-w-3xl px-6 py-10">
       <header>
         <h1 className="text-3xl font-bold tracking-tight">标签</h1>
         <p className="mt-4 text-white/60">共 {totalCount} 篇</p>

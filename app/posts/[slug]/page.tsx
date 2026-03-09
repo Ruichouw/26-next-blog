@@ -48,7 +48,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
         </div>
       </header>
 
-      <article className="prose prose-neutral rounded-2xl border border-neutral-800 bg-neutral-900/60 p-6 ">
+      <article className="prose prose-neutral rounded-2xl border border-neutral-800 bg-neutral-900/50 backdrop-blur-md px-6 ">
         {/* MDXRemote组件负责把MDX 字符串，解析并渲染成 React 内容，remarkGfm 让你支持 GitHub 风格 Markdown */}
         <MDXRemote
           source={post.content}

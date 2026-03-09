@@ -118,3 +118,38 @@ export function getTagSlugs(): { tag: string }[] {
     tag: encodeURIComponent(tag),
   }));
 }
+
+export type ArchiveGroup = {
+  year: string;
+  posts: PostMeta[];
+};
+
+// 返回按年份分组的文章列表
+export function getArchives(): ArchiveGroup[] {
+  const posts = getAllPostsMeta().filter((post) => post.date);
+  const archiveMap = new Map<string, PostMeta[]>();
+
+  posts.forEach((post) => {
+    const year = post.date.slice(0, 4);
+
+    if (!archiveMap.has(year)) {
+      archiveMap.set(year, []);
+    }
+
+    archiveMap.get(year)?.push(post);
+  });
+
+  return Array.from(archiveMap.entries())
+    .map(([year, posts]) => ({
+      year,
+      posts: posts.sort((a, b) => {
+        return new Date(b.date).getTime() - new Date(a.date).getTime();
+      }),
+    }))
+    .sort((a, b) => Number(b.year) - Number(a.year));
+}
+
+// 返回文章总数量
+export function getTotalPostsCount(): number {
+  return getAllPostsMeta().length;
+}

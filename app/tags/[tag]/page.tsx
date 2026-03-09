@@ -24,12 +24,12 @@ export default async function TagDetailPage({ params }: TagDetailPageProps) {
   }
 
   return (
-    <main className="mx-auto max-w-4xl px-6 py-10">
+    <main className="mx-auto max-w-3xl px-6 py-10">
       <header>
         <h1 className="text-3xl font-bold tracking-tight text-white">
           #{decodedTag}
         </h1>
-        <p className="mt-4 text-white/60">共 {posts.length} 篇</p>
+        <p className="mt-4 text-white/60">共 {posts.length} 篇文章</p>
       </header>
 
       <TagPostList posts={posts} />
