@@ -107,3 +107,40 @@ body {
   font-size: 0.9em;
 }
 
+.prose blockquote {
+  margin: 1.5em 0;
+  padding-left: 1rem;
+  border-left: 4px solid #7dd3fc;
+  color: rgba(255, 255, 255, 0.78);
+  font-style: normal;
+}
+
+.prose blockquote p {
+  margin: 0.75em 0;
+}
+
+.prose p a {
+  color: #7dd3fc;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  transition: color 0.2s ease;
+}
+
+.prose p a:hover {
+  color: #bae6fd;
+}
+
+.prose strong {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.prose em {
+  color: rgba(255, 255, 255, 0.9);
+  font-style: italic;
+}
+
+.prose .keyword {
+  color: #7dd3fc;
+  font-weight: 600;
+}
