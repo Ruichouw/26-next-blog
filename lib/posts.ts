@@ -73,3 +73,48 @@ export function getPostBySlug(slug: string): Post | null {
     content,
   };
 }
+
+export type TagCount = {
+  tag: string;
+  count: number;
+};
+
+// 返回含有tag和count字段的数组，tag是标签名，count是标签出现的次数
+export function getAllTagsWithCount(): TagCount[] {
+  const posts = getAllPostsMeta();
+  // 用map统计标签数量;
+  const tagMap = new Map<string, number>();
+
+  // 遍历所有文章的标签，统计每个标签出现的次数，存储在tagMap中，key是标签名，value是出现次数
+  posts.forEach((post) => {
+    post.tags.forEach((tag) => {
+      // 为什么用？？而不是||, 因为如果标签数量为0，||会把0当做false，导致统计错误，而??只会在undefined或null时才使用默认值，所以更适合这里的场景。
+      tagMap.set(tag, (tagMap.get(tag) ?? 0) + 1);
+    });
+  });
+  // 转换为数组，再将数组元素转换为对象，最后按数量排序，数量相同则按标签名排序
+  return Array.from(tagMap.entries())
+    .map(([tag, count]) => ({
+      tag,
+      count,
+    }))
+    .sort((a, b) => b.count - a.count || a.tag.localeCompare(b.tag));
+}
+// 返回所有标签的总数量
+export function getAllTagsTotalCount(): number {
+  const tags = getAllTagsWithCount();
+  return tags.reduce((sum, tag) => sum + tag.count, 0);
+}
+// 根据标签获取文章列表
+export function getPostsByTag(tag: string): PostMeta[] {
+  const posts = getAllPostsMeta();
+
+  return posts.filter((post) => post.tags.includes(tag));
+}
+
+// 对标签进行URL编码，生成静态路径参数，因为标签可能包含特殊字符，而URL只能包含特定字符，所以需要进行编码，encodeURIComponent会把特殊字符转换为%加上对应的ASCII码的形式，这样就可以安全地在URL中使用标签了。
+export function getTagSlugs(): { tag: string }[] {
+  return getAllTagsWithCount().map(({ tag }) => ({
+    tag: encodeURIComponent(tag),
+  }));
+}
