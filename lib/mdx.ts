@@ -1,4 +1,7 @@
 import rehypePrettyCode, { Options } from "rehype-pretty-code";
+import rehypeSlug from "rehype-slug";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
+
 // 配置 MDX 的代码高亮插件 rehype-pretty-code
 export const rehypePrettyCodeOptions = {
   theme: "github-dark-dimmed",
@@ -11,7 +14,8 @@ export const rehypePrettyCodeOptions = {
   },
 } satisfies Options;
 
-export const rehypePrettyCodePlugin = [
-  rehypePrettyCode,
-  rehypePrettyCodeOptions,
+export const rehypePlugins = [
+  rehypeSlug,
+  [rehypeAutolinkHeadings, { behavior: "wrap" }],
+  [rehypePrettyCode, rehypePrettyCodeOptions],
 ];
