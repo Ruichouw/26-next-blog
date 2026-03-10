@@ -22,11 +22,11 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
   const { slug } = await params;
   // 根据slug获取文章
   const post = getPostBySlug(slug);
-  const toc = extractToc(post.content);
-
   if (!post) {
     notFound();
   }
+  // 生成目录数据，传给 Toc 组件渲染
+  const toc = extractToc(post.content);
 
   return (
     <main className="mx-auto max-w-7xl px-6 py-10">
@@ -40,11 +40,11 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
                 {post.date}
               </time>
 
-              <div className="mt-4 flex flex-wrap gap-2">
+              <div className="mt-4 flex flex-wrap gap-2 ">
                 {post.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="rounded-full border border-black/10 px-3 py-1 text-sm "
+                    className="rounded-2xl border border-neutral-800 bg-neutral-900/50 backdrop-blur-md px-3 py-1 text-sm "
                   >
                     {tag}
                   </span>
@@ -66,7 +66,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
             />
           </article>
         </div>
-        <div className="w-64 ">
+        <div className="w-64 flex flex-col">
           <Toc items={toc} />
         </div>
       </div>

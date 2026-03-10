@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@rehype-pretty/transformers": "^0.13.2",
+    "fuse.js": "^7.1.0",
     "github-slugger": "^2.0.0",
     "gray-matter": "^4.0.3",
     "next": "16.1.6",

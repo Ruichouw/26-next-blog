@@ -23,6 +23,32 @@ function getPostFileNames() {
     return fileName.endsWith(".mdx");
   });
 }
+// 返回处理好的所有文章数据，包含content字段
+export function getAllPosts(): Post[] {
+  const fileNames = getPostFileNames();
+
+  const posts = fileNames.map((fileName) => {
+    const slug = fileName.replace(/\.mdx$/, "");
+    const fullPath = path.join(postsDirectory, fileName);
+
+    const fileContents = fs.readFileSync(fullPath, "utf8");
+
+    const { data, content } = matter(fileContents);
+
+    return {
+      title: data.title,
+      date: data.date,
+      summary: data.summary,
+      tags: data.tags ?? [],
+      slug,
+      content, // 关键
+    } as Post;
+  });
+
+  return posts.sort((a, b) => {
+    return new Date(b.date).getTime() - new Date(a.date).getTime();
+  });
+}
 
 // 返回处理好的文章元数据
 export function getAllPostsMeta(): PostMeta[] {
@@ -52,6 +78,7 @@ export function getAllPostsMeta(): PostMeta[] {
     return new Date(b.date).getTime() - new Date(a.date).getTime();
   });
 }
+
 // 根据 slug 获取一篇文章
 export function getPostBySlug(slug: string): Post | null {
   const fullPath = path.join(postsDirectory, `${slug}.mdx`);
