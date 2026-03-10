@@ -3,7 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import Fuse from "fuse.js";
 import { getAllPosts } from "@/lib/posts";
-import { normalizeSearchText } from "../lib/search/normalize";
+import { normalizeSearchText } from "@/lib/search/normalize";
 
 type SearchDoc = {
   id: string;
