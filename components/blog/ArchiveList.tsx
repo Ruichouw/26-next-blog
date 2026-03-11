@@ -25,7 +25,7 @@ export default function ArchiveList({ archives }: ArchiveListProps) {
                   {post.date.slice(5)}
                 </time>
 
-                <h3 className="truncate text-base text-white underline-offset-4 hover:underline hover:text-[#5EEAD4]">
+                <h3 className="text-base text-white underline-offset-4 hover:underline hover:text-[#5EEAD4]">
                   {post.title}
                 </h3>
               </Link>
