@@ -151,3 +151,7 @@ mark {
   padding: 0 3px;
   border-radius: 4px;
 }
+
+html {
+  color-scheme: dark;
+}
