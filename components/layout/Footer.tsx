@@ -6,7 +6,7 @@ export default function PostFooter() {
     <footer className="mt-10 border-t border-white/10 bg-neutral-950 py-8">
       <div className="space-y-10">
         {/* 版权信息 */}
-        <div className="text-center text-sm text-muted-foreground flex items-center px-16 justify-center gap-5">
+        <div className="flex flex-col items-center justify-center gap-2 px-6 text-center text-sm text-muted-foreground md:flex-row md:gap-5 md:px-16">
           <p>
             © {new Date().getFullYear()} Ruichouw's Blog. All rights reserved.
           </p>
