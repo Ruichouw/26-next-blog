@@ -29,9 +29,9 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
   const toc = extractToc(post.content);
 
   return (
-    <main className="mx-auto max-w-7xl px-6 py-10">
+    <main className="mx-auto max-w-7xl px-3 py-10">
       <div className="flex gap-5 w-full">
-        <div className="w-64"></div>
+        <div className="hidden md:w-64 md:block"></div>
         <div className="max-w-3xl w-full self-center">
           <header className="border-b border-black/10 pb-8">
             <h1 className="text-4xl font-bold tracking-tight">{post.title}</h1>
@@ -44,7 +44,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
                 {post.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="rounded-2xl border border-neutral-800 bg-neutral-900/50 backdrop-blur-md px-3 py-1 text-sm "
+                    className="rounded-2xl border border-neutral-800 bg-neutral-900/50 backdrop-blur-md px-3 py-1 text-xs "
                   >
                     {tag}
                   </span>
@@ -66,7 +66,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
             />
           </article>
         </div>
-        <div className="w-64 flex flex-col">
+        <div className="hidden md:w-64 md:flex md:flex-col">
           <Toc items={toc} />
         </div>
       </div>
