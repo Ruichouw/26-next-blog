@@ -1,4 +1,4 @@
-import type Fuse from "fuse.js";
+import type { FuseResultMatch } from "fuse.js";
 
 export function highlightByIndices(
   text: string,
@@ -55,7 +55,7 @@ export function highlightByIndices(
 }
 
 export function getMatchIndices(
-  matches: readonly Fuse.FuseResultMatch[] | undefined,
+  matches: readonly FuseResultMatch[] | undefined,
   key: string,
 ): [number, number][] {
   const found = matches?.find((m) => m.key === key);

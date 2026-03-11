@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import type Fuse from "fuse.js";
+import type { FuseResultMatch } from "fuse.js";
 
 import { getFuseInstance, type SearchDoc } from "@/lib/search/client-search";
 import { extractMatchedSnippet } from "@/lib/search/snippet";
@@ -14,7 +14,7 @@ type SearchResult = {
   score?: number;
   snippet: string;
   snippetIndices: [number, number][];
-  matches?: readonly Fuse.FuseResultMatch[];
+  matches?: readonly FuseResultMatch[];
 };
 
 export default function SearchClient({

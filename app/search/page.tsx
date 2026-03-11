@@ -11,7 +11,7 @@ export default async function BlogPage({
 
   return (
     <main className="mx-auto max-w-3xl px-6 py-10">
-      <h1 className="text-3xl font-bold">博客</h1>
+      <h1 className="text-3xl font-bold">搜索</h1>
       <div className="mt-6">
         <SearchClient initialQuery={q} />
       </div>
