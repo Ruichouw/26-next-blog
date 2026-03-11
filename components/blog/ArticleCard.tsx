@@ -16,7 +16,7 @@ export default function ArticleCard({ post }: ArticleCardProps) {
           {post.title}
         </h2>
 
-        <p className="text-base text-neutral-400 line-clamp-2">
+        <p className="text-sm md:text-base text-neutral-400 line-clamp-2">
           {post.summary}
         </p>
 
