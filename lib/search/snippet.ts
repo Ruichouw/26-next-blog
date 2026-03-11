@@ -1,8 +1,9 @@
 import type Fuse from "fuse.js";
 import type { SearchDoc } from "./client-search";
+import { FuseResult } from "fuse.js";
 
 export function extractMatchedSnippet(
-  result: Fuse.FuseResult<SearchDoc>,
+  result: FuseResult<SearchDoc>,
   radius = 45,
 ) {
   const textMatch = result.matches?.find((m) => m.key === "text");
