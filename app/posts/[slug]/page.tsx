@@ -68,8 +68,8 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
               </div>
             </div>
           </header>
-
-          <article className="prose prose-neutral rounded-2xl border border-neutral-800 bg-neutral-900/50 backdrop-blur-md px-6 ">
+          {/* @tailwindcss/typography 会自动给 .prose 设置max-width: 65ch;max-w-none 取消这个限制，允许内容占满父容器宽度 */}
+          <article className="prose max-w-none prose-invert rounded-2xl border border-neutral-800 bg-neutral-900/50 backdrop-blur-md px-6 ">
             {/* MDXRemote组件负责把MDX 字符串，解析并渲染成 React 内容，remarkGfm 让你支持 GitHub 风格 Markdown */}
             <MDXRemote
               source={post.content}
