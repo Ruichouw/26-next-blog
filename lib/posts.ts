@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
+import { extractPlainText } from "@/lib/summary";
 
 // 获取content / posts目录的绝对路径，path.join是字符串拼接，process.cwd()是当前工作目录的绝对路径
 const postsDirectory = path.join(process.cwd(), "content/posts");
@@ -38,7 +39,7 @@ export function getAllPosts(): Post[] {
     return {
       title: data.title,
       date: data.date,
-      summary: data.summary,
+      summary: data.summary ?? extractPlainText(content, 200),
       tags: data.tags ?? [],
       slug,
       content, // 关键
@@ -63,12 +64,12 @@ export function getAllPostsMeta(): PostMeta[] {
     // 读取文章内容返回字符串
     const fileContents = fs.readFileSync(fullPath, "utf8");
     // 利用gray-matter解析字符串，提取出front matter中的数据和内容，返回一个对象，data是front matter中的数据，content是文章内容
-    const { data } = matter(fileContents);
+    const { data, content } = matter(fileContents);
     // 返回统一结构，而不是直接返回data，因为我们需要slug字段，而slug是从文件名生成的，不在front matter中，所以我们需要手动添加slug字段
     return {
       title: data.title,
       date: data.date,
-      summary: data.summary,
+      summary: data.summary ?? extractPlainText(content, 200),
       tags: data.tags ?? [],
       slug,
     } as PostMeta;
@@ -94,7 +95,7 @@ export function getPostBySlug(slug: string): Post | null {
   return {
     title: data.title,
     date: data.date,
-    summary: data.summary,
+    summary: data.summary ?? extractPlainText(content, 200),
     tags: data.tags ?? [],
     slug,
     content,

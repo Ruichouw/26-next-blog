@@ -47,6 +47,9 @@ importers:
       remark-toc:
         specifier: ^9.0.0
         version: 9.0.0
+      remove-markdown:
+        specifier: ^0.6.3
+        version: 0.6.3
       shiki:
         specifier: ^4.0.1
         version: 4.0.1
@@ -2226,6 +2229,9 @@ packages:
 
   remark-toc@9.0.0:
     resolution: {integrity: sha512-KJ9txbo33GjDAV1baHFze7ij4G8c7SGYoY8Kzsm2gzFpbhL/bSoVpMMzGa3vrNDSWASNd/3ppAqL7cP2zD6JIA==}
+
+  remove-markdown@0.6.3:
+    resolution: {integrity: sha512-Qvp2p0Q1irE7AaJO7QemJe04HdObHylJrG+q4hszvPlYp7q4EvfINpEIaIEFdB+3XTDp1h6fiyT60ae00gmRow==}
 
   resolve-from@4.0.0:
     resolution: {integrity: sha512-pb/MYmXstAkysRFx8piNI1tGFNQIFA3vkE3Gq4EuA1dF6gHp/+vgZqsCGJapvy8N3Q+4o7FwvquPJcnZ7RYy4g==}
@@ -5268,6 +5274,8 @@ snapshots:
     dependencies:
       '@types/mdast': 4.0.4
       mdast-util-toc: 7.1.0
+
+  remove-markdown@0.6.3: {}
 
   resolve-from@4.0.0: {}
 
