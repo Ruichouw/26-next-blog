@@ -9,7 +9,7 @@ GitHub 官方把它定义为一个 CI/CD 平台，可以自动完成构建、测
 ## deploy.yml原理
 - on 触发器
 用来指定什么时候执行
-```
+```bash
     on:
       push:
         branches:
@@ -27,7 +27,7 @@ GitHub 官方把它定义为一个 CI/CD 平台，可以自动完成构建、测
     .github/workflows/deploy.yml
 ```
 2. 写触发条件  
-```
+```bash
     on:
       push:
         branches:
@@ -35,19 +35,19 @@ GitHub 官方把它定义为一个 CI/CD 平台，可以自动完成构建、测
     # 推送到主分支自动部署
 ```
 3. 定义运行环境  
-```
+```bash
     # 这里用Ubuntu runner
     jobs:
       deploy:
         runs-on: ubuntu-latest
 ```
 4. 拉取代码  
-```
+```bash
     - name: Checkout
       uses: actions/checkout@v4
 ```
 5. 安装运行环境,pnpm和依赖  
-```
+```bash
      - name: Setup pnpm
             uses: pnpm/action-setup@v4
             with:
@@ -67,12 +67,12 @@ GitHub 官方把它定义为一个 CI/CD 平台，可以自动完成构建、测
             # frozen-lockfile的作用是严格按照pnpm-lock.yaml 安装依赖，不允许自动修改
 ```
 6. 构建
-```
+```bash
     - name: Build app
             run: pnpm build
 ```
 7. 打包压缩
-```
+```bash
     - name: Create deployment archive
             run: |
               tar czf build-artifact.tar.gz \
@@ -83,7 +83,7 @@ GitHub 官方把它定义为一个 CI/CD 平台，可以自动完成构建、测
 > next用的是 output: "standalone"  只需要这三个目录next/standalone  .next/static  public传到服务器，就能运行 Next.js。  
 
 8. 配置 SSH 连接  
-```
+```bash
     - name: Setup SSH
       run: |
         mkdir -p ~/.ssh
@@ -97,14 +97,14 @@ GitHub 官方把它定义为一个 CI/CD 平台，可以自动完成构建、测
  在 GitHub runner 上配置 SSH，用于连接服务器  
 
 9. 上传构建包  
-```
+```bash
     - name: Upload artifact to server
       run: |
         scp -P ${{ secrets.SERVER_PORT }} build-artifact.tar.gz \
           ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/root/apps/my-blog/build-artifact.tar.gz
 ```
 10. 执行服务器部署脚本  
-```
+```bash
     - name: Run remote deploy script
       run: |
         ssh -p ${{ secrets.SERVER_PORT }} \
