@@ -1,0 +1,127 @@
+---
+title: "GitHub Actions 部署 nextjs 博客"
+date: "2026-03-10"
+summary: "nextjs博客用github actions部署的步骤和原理分析。"
+tags: ["部署", "GitHub Actions", "CI/CD"]
+---
+## 是什么
+GitHub 官方把它定义为一个 CI/CD 平台，可以自动完成构建、测试和部署。代码提交后的一串自动化固定操作， GitHub 会读取仓库中的 workflow YAML 文件，分配一个 runner 去执行里面定义的 jobs 和 steps。  
+## deploy.yml原理
+- on 触发器
+用来指定什么时候执行
+```
+    on:
+      push:
+        branches:
+          - main
+```
+- Runner  
+可以理解成一台临时机器，负责拉代码、装依赖、运行命令、上传产物、执行部署
+- Job / Step  
+ 一个 workflow 里可以有多个 job；每个 job 里又有多个 step。step 要么执行 shell 命令，要么调用别人封装好的 action。    
+
+## deploy.yml实现步骤
+
+1. 在仓库里创建 workflow 文件  
+```
+    .github/workflows/deploy.yml
+```
+2. 写触发条件  
+```
+    on:
+      push:
+        branches:
+          - main
+    # 推送到主分支自动部署
+```
+3. 定义运行环境  
+```
+    # 这里用Ubuntu runner
+    jobs:
+      deploy:
+        runs-on: ubuntu-latest
+```
+4. 拉取代码  
+```
+    - name: Checkout
+      uses: actions/checkout@v4
+```
+5. 安装运行环境,pnpm和依赖  
+```
+     - name: Setup pnpm
+            uses: pnpm/action-setup@v4
+            with:
+              version: 10
+    
+          - name: Setup Node.js
+            uses: actions/setup-node@v4
+            with:
+              node-version: 22
+              cache: pnpm
+    
+            # cache是开启依赖缓存，这样的话第二次下载依赖只会下载新增的依赖
+    
+          - name: Install dependencies
+            run: pnpm install --frozen-lockfile
+    
+            # frozen-lockfile的作用是严格按照pnpm-lock.yaml 安装依赖，不允许自动修改
+```
+6. 构建
+```
+    - name: Build app
+            run: pnpm build
+```
+7. 打包压缩
+```
+    - name: Create deployment archive
+            run: |
+              tar czf build-artifact.tar.gz \
+                .next/standalone \
+                .next/static \
+                public
+```
+> next用的是 output: "standalone"  只需要这三个目录next/standalone  .next/static  public传到服务器，就能运行 Next.js。  
+
+8. 配置 SSH 连接  
+```
+    - name: Setup SSH
+      run: |
+        mkdir -p ~/.ssh
+        # 写入 SSH 私钥文件
+        echo "${{ secrets.SERVER_SSH_KEY }}" > ~/.ssh/id_ed25519
+        # 修改权限
+        chmod 600 ~/.ssh/id_ed25519
+        # 添加服务器指纹，避免 SSH 首次连接提示确认
+        ssh-keyscan -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+```
+ 在 GitHub runner 上配置 SSH，用于连接服务器  
+
+9. 上传构建包  
+```
+    - name: Upload artifact to server
+      run: |
+        scp -P ${{ secrets.SERVER_PORT }} build-artifact.tar.gz \
+          ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/root/apps/my-blog/build-artifact.tar.gz
+```
+10. 执行服务器部署脚本  
+```
+    - name: Run remote deploy script
+      run: |
+        ssh -p ${{ secrets.SERVER_PORT }} \
+          ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} \
+          "cd /root/apps/my-blog && ./server-deploy.sh"
+```
+
+## GitHub 仓库里的配置
+
+1. 设置 Secrets  
+
+仓库里面settings->Secrets and variables-> actions->New repository secret
+
+![测试图片](/images/secret.jpg)
+
+2. 生成 SSH Key  
+
+本地生成公私钥， 公钥放服务器  ， 私钥放 GitHub Secrets  
+
+

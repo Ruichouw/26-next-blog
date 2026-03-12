@@ -31,13 +31,15 @@ export async function generateMetadata({
 // 获取所有文章的 slug 以生成静态路径
 export function generateStaticParams() {
   return getAllPostsMeta().map((post) => ({
-    slug: post.slug,
+    slug: encodeURIComponent(post.slug),
   }));
 }
 export default async function PostDetailPage({ params }: PostDetailPageProps) {
   const { slug } = await params;
   // 根据slug获取文章
-  const post = getPostBySlug(slug);
+  const decodedSlug = decodeURIComponent(slug);
+
+  const post = getPostBySlug(decodedSlug);
   if (!post) {
     notFound();
   }

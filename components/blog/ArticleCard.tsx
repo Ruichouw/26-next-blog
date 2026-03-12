@@ -9,7 +9,7 @@ export default function ArticleCard({ post }: ArticleCardProps) {
   return (
     <article className="group rounded-2xl border border-neutral-800 bg-neutral-900/60 transition hover:border-[#0F766E]">
       <Link
-        href={`/posts/${post.slug}`}
+        href={`/posts/${encodeURIComponent(post.slug)}`}
         className="flex flex-col space-y-3 p-6"
       >
         <h2 className="text-lg md:text-2xl font-semibold tracking-tight group-hover:text-[#5EEAD4]">
