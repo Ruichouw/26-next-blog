@@ -1,6 +1,8 @@
 // app/blog/page.tsx
 import SearchClient from "@/components/blog/search-client";
-
+export const metadata = {
+  title: "搜索",
+};
 export default async function BlogPage({
   searchParams,
 }: {

@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { getAllTagsWithCount, getAllTagsTotalCount } from "@/lib/posts";
-
+export const metadata = {
+  title: "标签",
+};
 export default function TagsPage() {
   const tags = getAllTagsWithCount();
   const totalCount = getAllTagsTotalCount();

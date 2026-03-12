@@ -1,6 +1,18 @@
 import { notFound } from "next/navigation";
 import { getAllTagsWithCount, getPostsByTag } from "@/lib/posts";
 import TagPostList from "@/components/blog/TagPostList";
+import type { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: TagDetailPageProps): Promise<Metadata> {
+  const { tag } = await params;
+  const decodedTag = decodeURIComponent(tag);
+
+  return {
+    title: `标签 - ${decodedTag}`,
+  };
+}
 
 type TagDetailPageProps = {
   params: Promise<{

@@ -5,13 +5,29 @@ import { getAllPostsMeta, getPostBySlug } from "@/lib/posts";
 import { rehypePlugins } from "@/lib/mdx";
 import Toc from "@/components/blog/Toc";
 import { extractToc } from "@/lib/toc";
+import type { Metadata } from "next";
 
 type PostDetailPageProps = {
   params: Promise<{
     slug: string;
   }>;
 };
+export async function generateMetadata({
+  params,
+}: PostDetailPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const post = getPostBySlug(slug);
 
+  if (!post) {
+    return {
+      title: "Post Not Found",
+    };
+  }
+
+  return {
+    title: post.title,
+  };
+}
 // 获取所有文章的 slug 以生成静态路径
 export function generateStaticParams() {
   return getAllPostsMeta().map((post) => ({

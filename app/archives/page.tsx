@@ -1,6 +1,9 @@
 import ArchiveList from "@/components/blog/ArchiveList";
 import { getArchives, getTotalPostsCount } from "@/lib/posts";
 
+export const metadata = {
+  title: "归档",
+};
 export default function ArchivesPage() {
   const archives = getArchives();
   const totalPosts = getTotalPostsCount();

@@ -11,6 +11,14 @@ export default function PostFooter() {
             © {new Date().getFullYear()} Ruichouw's Blog. All rights reserved.
           </p>
           <p>Built with Next.js · MDX · Tailwind CSS</p>
+          {/* 备案号 */}
+          <Link
+            href="https://beian.miit.gov.cn/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            粤ICP备2025511917号
+          </Link>
         </div>
       </div>
     </footer>
