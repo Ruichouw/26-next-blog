@@ -1,0 +1,177 @@
+---
+title: "Tailwind CSS 入门"
+date: "2026-03-13"
+tags: ["tailwindcss"]
+---
+ 
+## 宽高
+### 宽度高度
+- w-数字 
+
+w-1指的是0.25rem，默认1rem=16px，所以w-1=4px；h-数字同理
+
+- w-[具体值]
+
+w-[80px]  w-[5rem]
+
+- w-百分比
+
+w-1/2  `width: 50%;`
+
+- w-full  `width: 100%;`
+- `width: 100vw;`
+
+- 同时设置宽高
+`size-16` = `width: 4rem; height: 4rem;`
+###  最小/最大宽高  
+ 最大宽度：`max-w-*`
+
+和w-full配合使用 
+
+```javascript
+<div class="w-full max-w-md"></div>
+// 尽量占满，但最大448
+```
+
+ 最小宽度：`min-w-*`
+
+ 在 flex 布局里，`min-w-0` 非常重要，能解决文本不换行、子项撑爆容器的问题  
+
+> flex默认规则是子项为min-width: auto，这就导致子项的宽度为内容最小长度，所以子项内容最小长度大于剩余空间时，正常flex要收缩这个子项，但是min-width: auto导致不能收缩，所以会撑爆容器
+
+ min-w-0  的作用 元素允许比内容更小  
+
+ 最小高度：`min-h-*`
+
+  `min-h-screen  `表示最小高度至少等于整个屏幕高度
+
+## 文本
+ 溢出
+
+ 单行省略   truncate  
+
+```javascript
+overflow: hidden;
+text-overflow: ellipsis;
+white-space: nowrap;
+```
+
+ 多行省略   line-clamp-2
+
+### 大小
+![](/images/tailcss-1.png)
+
+### 粗细
+![](/images/tailcss-2.png)
+
+### 颜色
+```javascript
+text-gray-500
+text-gray-700
+text-gray-900
+text-blue-500
+text-red-500
+text-green-500
+```
+
+###  文本排列  
+![](https://cdn.nlark.com/yuque/0/2026/png/44457882/1773339160516-a7025e07-e0bd-4a9c-85ea-36ba84cb2bb3.png)
+
+### 行高
+ leading-*  
+
+###  字间距 `tracking-*`
+###  不换行  whitespace-nowrap
+## 边距
+外边距
+
+m-*  四周   
+
+mx-*  左右 
+
+my-*  上下
+
+
+
+ mx-auto  水平居中
+
+```javascript
+<div class="flex">
+  <div>left</div>
+  <div class="ml-auto">right</div>
+</div>
+```
+
+第二个元素会被推到最右边，因为flex会把剩余空间交给margin auto ,所以margin-left=剩余空间
+
+
+
+`space-y-*`
+
+ 给每个相邻的垂直排列元素之间加 `margin-top`，相当于block场景下对应的flex的gap
+
+
+
+## 边框
+ border  对应`border-width: 1px;`
+
+边框颜色   border-颜色/透明度
+
+圆角  rounded-xl 
+
+`rounded-full圆形`
+
+## hover  
+` hover:bg-blue-700  `
+
+ hover 父元素改变子元素  
+
+父元素设置`group`  子元素设置`group-hover:`
+
+## flex
+### 创建flex布局  flex
+控制元素排列方向为竖直  flex-col
+
+### 主轴对齐 
+左对齐  justify-start  
+
+右对齐   justify-end
+
+居中对齐   justify-center
+
+两端对齐   ustify-between 
+
+### 交叉轴对齐
+items-center 
+
+换行 flex-wrap
+
+### 子元素控制
+控制扩展  grow  grow-0
+
+shrink shrink-0
+
+flex-1  等价于flex: 1 1 0%;代表可伸缩，初始大小为0
+
+间距 gap  gap-4  
+
+## grid
+创建grid容器  grid
+
+ 定义列  ` grid-cols-{n}`   表示一行n列
+
+ 让元素 占多列   col-span-{n}  
+
+对齐方式   `justify-items-center  `   `items-center`  
+
+## 定位
+ relative  
+
+ absolute  
+
+ fixed  
+
+ sticky  相对父容器的固定
+
+
+

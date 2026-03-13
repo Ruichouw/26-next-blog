@@ -1,21 +1,18 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
-
+/* foreground是文字颜色 */
+/* geist-sans正文字体 */
+/* geist-mono代码字体 */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #111;
+  --foreground: #ededed;
 }
-
+/* 把 CSS 变量注册成 Tailwind 的主题变量 */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-:root {
-  --background: #111;
-  --foreground: #ededed;
 }
 
 body {
