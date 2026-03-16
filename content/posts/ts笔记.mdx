@@ -1,0 +1,187 @@
+---
+title: TypeScript 笔记
+date: "2026-03-17"
+tags: ["ts"]
+---
+## 类型声明
+
+### 基本类型
+
+```javascript
+let name: string = "Tom"
+let age: number = 18
+let isAdmin: boolean = false
+
+//数组
+let nums: number[] = [1,2,3]
+let names: Array<string> = ["Tom","Lucy"]
+
+function add(a: number, b: number): number {
+  return a + b
+}
+//函数参数和返回值必须定义类型。
+
+//对象类型
+let user: { name: string; age: number } = {
+  name: "Tom",
+  age: 20
+}
+```
+
+### 自定义类型
+
+type类型别名
+
+```js
+type ID = string | number
+
+let userId: ID = 100
+```
+
+interface接口
+
+```javascript
+interface User {
+  name: string
+  age: number
+}
+
+const u: User = {
+  name: "Tom",
+  age: 18
+}
+
+//可选属性
+age?: number
+//只读属性
+readonly id: number
+```
+
+### 联合类型
+
+```
+let value: string | number
+```
+
+## 类型断言
+
+```javascript
+(value as number).toFixed(2)
+```
+
+``` javascript
+const el = document.getElementById("app");
+//ts会推断类型为HTMLElement | null ,如果确定存在，可以断言
+const el = document.getElementById("app") as HTMLElement;
+```
+
+## 类型守卫
+
+通过某种判断，让 TypeScript 知道某个值现在一定是什么类型。  
+
+### typeof  判断基本数据类型
+
+```javascript
+function print(value: string | number) {
+  if (typeof value === "string") {
+    console.log(value.toUpperCase())
+  }
+}
+```
+
+### instanceof  判断对象类型
+
+```javascript
+function log(value: Date | string) {
+  if (value instanceof Date) {
+    console.log(value.getTime())
+  }
+}
+```
+
+### in  判断对象属性
+
+```javascript
+type Dog = { bark: () => void }
+type Cat = { meow: () => void }
+
+function speak(animal: Dog | Cat) {
+  if ("bark" in animal) {
+    animal.bark()
+  }
+}
+```
+
+### 自定义类型守卫
+
+ 写一个函数，返回 boolean，并告诉 TypeScript：如果返回 true，这个值是什么类型。  
+
+```javascript
+function print(value: string | number) {
+  if (isString(value)) {
+    console.log(value.toUpperCase())
+  }
+}
+```
+
+普通函数
+
+```javascript
+function isString(value: unknown) {
+  return typeof value === "string"
+}
+```
+
+isString(value)返回的是布尔值，ts类型不能根据布尔值来判断value的类型，所以还是会类型报错
+
+类型守卫版本
+
+```javascript
+function isString(value: unknown): value is string {
+  return typeof value === "string"
+}
+```
+
+多出来: value is string，告诉ts，如果函数返回true，那么value的类型就是string，这样的话就不会类型报错了
+
+## 其他
+
+### keyof
+
+获取一个对象类型的所有属性名（key），并组成一个联合类型
+
+### typeof 类型推导
+
+
+### 泛型约束extends
+
+限制泛型必须满足某种类型结构
+
+最常见用法：限制参数只能是对象的 key
+
+```javascript
+function getValue<T, K extends keyof T>(obj: T, key: K) {
+
+  return obj[key]
+
+}
+```
+
+### Promise 类型
+
+```
+Promise<T>
+```
+
+T表示成功状态返回的数据类型
+
+## 泛型
+声明时不指定具体的类型，而是在调用的时候再指定类型
+```javascript
+function identity<T>(value:T):T {
+    return value
+}
+identity<string>("hello")
+identity(123)
+//调用时不指定类型，ts会根据传入的参数自动推断类型,这里ts推断为number
+```
