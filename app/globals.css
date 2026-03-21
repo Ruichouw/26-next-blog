@@ -99,8 +99,13 @@ body {
   padding: 0.2rem 0.4rem;
   border-radius: 0.375rem;
   background: rgba(255, 255, 255, 0.08);
-  color: #f5f5f5;
+  color: #fff;
   font-size: 0.9em;
+}
+/* 取消行内代码自带的伪元素导致的显示``的情况 */
+.prose :not(pre)>code::before,
+.prose :not(pre)>code::after {
+  content: "";
 }
 
 .prose blockquote {

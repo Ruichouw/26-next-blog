@@ -245,23 +245,81 @@ preventDefault()的作用是阻止浏览器的默认行为
 
 ### 闭包形成的三个条件
 
-函数嵌套函数
+- 函数嵌套函数
 
-内部函使用外部变量
+- 内部函数使用外部变量
 
-内部函数被返回或在外部使用
+- 内部函数被返回或在外部使用
+这里给出一个闭包的例子：
+
+```javascript
+function outer() {
+  let count = 0
+
+  return function () {
+    count++
+    console.log(count)
+  }
+}
+
+const fn = outer()
+
+fn() // 1
+fn() // 2
+fn() // 3
+```
+正常来说，outer函数执行完了，count变量应该被销毁了，
+但是由于内部函数还在使用count，所以count不会被销毁，而是被保存在内存中，这就是闭包的作用。
+所以导致了每次执行都在用同一个count变量，所以每次执行都会在上一次的基础上加1。
+
+需要注意的是，闭包会导致内存泄漏，因为闭包会一直保留对外部变量的引用，
+导致这些变量无法被垃圾回收机制回收，所以在使用闭包时要注意及时释放不再需要的变量。
 
 ## 防抖节流
 
-### 防抖：连续触发事件中只执行最后一次
+### 防抖
+连续触发事件中只执行最后一次
+实现思路：
 
-![img](/images/js进阶/1.3.png)
+- 每次触发事件时，判断有没有定时器，有的话先清除上一次的定时器，再设置一个新的定时器，在定时器中执行需要的操作，
+没有的话开启定时器
 
-### 节流： 在一段时间内执行一次
+### 节流
+在一段时间内执行一次，应用于触发次数太高的需要减少的场景
+实现思路：
+- 每次触发事件时，判断有没有定时器，有的话直接返回，没有的话设置一个定时器，
+在定时器中执行需要的操作，最后清除定时器
+```javascript
+let timer = null
 
-应用于触发次数太高的需要减少的场景
+function handleClick() {
+  if (timer) return
 
-![img](/images/js进阶/1.4.png)
+  timer = setTimeout(() => {
+    console.log('执行请求')
+    timer = null
+  }, 1000)
+}
+```
+这里没用闭包保存定时器状态，定时器是全局变量，如果有多个按钮需要用到，会有相互影响的问题，
+这里可以用闭包来优化，将定时器变量私有化
+```javascript
+function createRequestHandler() {
+  let timer = null
+
+  return function handleClick() {
+    if (timer) return
+
+    timer = setTimeout(() => {
+      console.log('执行请求')
+      timer = null
+    }, 1000)
+  }
+}
+
+const handleClick = createRequestHandler()
+```
+
 
 注意定时器里面把定时器清空的话，不能用clearTimeout，要用timer=null
 
