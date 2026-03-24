@@ -12,6 +12,7 @@ const TOP_OFFSET = 96; // 对应你的 sticky navbar 高度
 
 export default function Toc({ items }: TocProps) {
   const [activeId, setActiveId] = useState("");
+  const [isCollapsed, setIsCollapsed] = useState(true);
   // 用intersection observer方案显示目录高亮
 
   // 用useMemo缓存来提取出目录项的id数组，保持ids的稳定，如果没用useMemo，每次组件重新渲染都会生成新的ids数组，导致useEffect的依赖变化，从而重新设置和清理观察器，性能较差。
@@ -81,32 +82,50 @@ export default function Toc({ items }: TocProps) {
     <aside className="sticky top-10 hidden w-64 shrink-0 xl:block">
       <div className="flex flex-col gap-6">
         <div className="text-sm rounded-2xl border border-neutral-800 bg-neutral-900/50 backdrop-blur-md p-4">
-          <div className="flex gap-1 items-center mb-4 font-semibold text-white/80">
-            目录
+          <div
+            className="flex items-center justify-between   font-semibold text-white/80 cursor-pointer"
+            onClick={() => setIsCollapsed(!isCollapsed)}
+          >
+            <span>目录</span>
+            <svg
+              className={`w-4 h-4 shrink-0 transition-transform ${isCollapsed ? "-rotate-90" : ""}`}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
           </div>
 
-          <ul className="space-y-2">
-            {items.map((item) => {
-              const isActive = activeId === item.id;
+          {!isCollapsed && (
+            <ul className="space-y-2 pt-4">
+              {items.map((item) => {
+                const isActive = activeId === item.id;
 
-              return (
-                <li key={item.id} className={item.level === 3 ? "ml-4" : ""}>
-                  <a
-                    href={`#${item.id}`}
-                    className={`block transition-colors ${
-                      isActive
-                        ? "font-medium text-[#5EEAD4]"
-                        : item.level === 3
-                          ? "text-white/60 hover:text-[#5EEAD4]"
-                          : "text-white/80 hover:text-[#5EEAD4]"
-                    }`}
-                  >
-                    {item.text}
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
+                return (
+                  <li key={item.id} className={item.level === 3 ? "ml-4" : ""}>
+                    <a
+                      href={`#${item.id}`}
+                      className={`block transition-colors ${
+                        isActive
+                          ? "font-medium text-[#5EEAD4]"
+                          : item.level === 3
+                            ? "text-white/60 hover:text-[#5EEAD4]"
+                            : "text-white/80 hover:text-[#5EEAD4]"
+                      }`}
+                    >
+                      {item.text}
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
         </div>
         <ScrollButtons />
       </div>
